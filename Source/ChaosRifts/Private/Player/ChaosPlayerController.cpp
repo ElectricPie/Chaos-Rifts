@@ -3,14 +3,13 @@
 
 #include "Player/ChaosPlayerController.h"
 #include "EnhancedInputComponent.h"
-#include "Character/ChaosPlayerCharacter.h"
 #include "EnhancedInputSubsystems.h"
 
 void AChaosPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
-	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = GetLocalPlayer()->GetSubsystem<UEnhancedInputLocalPlayerSubsystem>())
+	if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(GetLocalPlayer()))
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
@@ -33,14 +32,10 @@ void AChaosPlayerController::Move(const FInputActionValue& Value)
 	const FRotator YawRotation = FRotator(0.f, GetControlRotation().Yaw, 0.f);
 	const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
 	const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(1, 0.1f, FColor::Green, FString::Printf(TEXT("Move Direction: %s"), *MoveDirection.ToString()));
-	}
 
-	if (AChaosPlayerCharacter* PlayerCharacter = GetPawn<AChaosPlayerCharacter>())
+	if (APawn* ControlledPawn = GetPawn<APawn>())
 	{
-		PlayerCharacter->AddMovementInput(ForwardDirection, MoveDirection.Y);
-		PlayerCharacter->AddMovementInput(RightDirection, MoveDirection.X);
+		ControlledPawn->AddMovementInput(ForwardDirection, MoveDirection.Y);
+		ControlledPawn->AddMovementInput(RightDirection, MoveDirection.X);
 	}
 }
