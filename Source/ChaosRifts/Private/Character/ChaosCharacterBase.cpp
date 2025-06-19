@@ -10,3 +10,7 @@ AChaosCharacterBase::AChaosCharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 
 }
+
+void AChaosCharacterBase::InitAbilityActorInfo()
+{
+}

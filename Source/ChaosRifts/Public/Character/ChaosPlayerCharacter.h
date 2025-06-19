@@ -15,4 +15,9 @@ public:
 	// Sets default values for this character's properties
 	AChaosPlayerCharacter();
 
+protected:
+	virtual void PossessedBy(AController* NewController) override;
+	virtual void OnRep_PlayerState() override;
+	
+	virtual void InitAbilityActorInfo() override;
 };

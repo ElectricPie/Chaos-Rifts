@@ -3,11 +3,40 @@
 
 #include "Character/ChaosPlayerCharacter.h"
 
+#include "AbilitySystemComponent.h"
+#include "Player/ChaosPlayerState.h"
+
 
 // Sets default values
 AChaosPlayerCharacter::AChaosPlayerCharacter()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+}
+
+void AChaosPlayerCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+
+	// Server Side Initialization
+	InitAbilityActorInfo();
+}
+
+void AChaosPlayerCharacter::OnRep_PlayerState()
+{
+	Super::OnRep_PlayerState();
+
+	// Client Side Initialization
+	InitAbilityActorInfo();
+}
+
+void AChaosPlayerCharacter::InitAbilityActorInfo()
+{
+	AChaosPlayerState* ChaosPlayerState = GetPlayerState<AChaosPlayerState>();
+	check(ChaosPlayerState);
+	ChaosPlayerState->GetAbilitySystemComponent()->InitAbilityActorInfo(ChaosPlayerState, this);
+
+	AbilitySystemComponent = ChaosPlayerState->GetAbilitySystemComponent();
+	AttributeSet = ChaosPlayerState->GetAttributeSet();
 }
 
