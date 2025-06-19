@@ -13,6 +13,17 @@
 	GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
 	GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
 
+USTRUCT(BlueprintType)
+struct FAttributeChangedMessage
+{
+	GENERATED_BODY()
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	FText AttributeName;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	float AttributeValue;
+	
+};
 
 /**
  * 
