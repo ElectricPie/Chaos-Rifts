@@ -178,3 +178,6 @@ Plugins/**/Intermediate/*
 Content/Assets/PolygonFantasyKingdom/
 Content/Assets/PolygonDungeonRealms/
 Content/Assets/PolygonDungeons/
+
+# UI Assets
+Content/Assets/BronteUi/
