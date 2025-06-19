@@ -4,7 +4,6 @@
 #include "ChaosAssetManager.h"
 
 #include "FChaosGameplayTags.h"
-#include "GameFramework/GameplayMessageSubsystem.h"
 
 UChaosAssetManager& UChaosAssetManager::Get()
 {
