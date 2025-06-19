@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "Player/ChaosPlayerState.h"
+#include "Ui/Hud/OverlayHud.h"
 
 
 // Sets default values
@@ -38,5 +39,13 @@ void AChaosPlayerCharacter::InitAbilityActorInfo()
 
 	AbilitySystemComponent = ChaosPlayerState->GetAbilitySystemComponent();
 	AttributeSet = ChaosPlayerState->GetAttributeSet();
+
+	if (const APlayerController* PlayerController = GetController<APlayerController>())
+	{
+		if (AOverlayHud* OverlayHud = PlayerController->GetHUD<AOverlayHud>())
+		{
+			OverlayHud->InitializeOverlay();
+		}
+	}
 }
 
