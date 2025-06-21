@@ -47,5 +47,7 @@ void AChaosPlayerCharacter::InitAbilityActorInfo()
 			OverlayHud->InitializeOverlay();
 		}
 	}
+
+	InitDefaultAttributes();
 }
 

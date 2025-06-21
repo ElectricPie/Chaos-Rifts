@@ -7,6 +7,7 @@
 #include "GameFramework/PlayerState.h"
 #include "ChaosPlayerState.generated.h"
 
+class UGameplayMessageSubsystem;
 class UAttributeSet;
 
 /**

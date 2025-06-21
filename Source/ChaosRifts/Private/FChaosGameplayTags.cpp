@@ -6,6 +6,6 @@ FChaosGameplayTags FChaosGameplayTags::GameplayTags;
 
 void FChaosGameplayTags::InitializeNativeGameplayTags()
 {
-	GameplayTags.Message_AttributeChanged = UGameplayTagsManager::Get().
-	AddNativeGameplayTag(FName(TEXT("Message.AttributeChanged")), TEXT("Attribute Changed Message"));
+	GameplayTags.Message_Attribute_Changed = UGameplayTagsManager::Get().
+	AddNativeGameplayTag(FName(TEXT("Message.Attribute.Changed")), TEXT("Attribute Changed Message"));
 }

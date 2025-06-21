@@ -7,6 +7,7 @@
 #include "GameFramework/Character.h"
 #include "ChaosCharacterBase.generated.h"
 
+class UGameplayEffect;
 class UAbilitySystemComponent;
 class UAttributeSet;
 
@@ -28,6 +29,12 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UAttributeSet> AttributeSet;
 
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category="Attributes")
+	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
+
 protected:
 	virtual void InitAbilityActorInfo();
+	virtual void InitDefaultAttributes() const;
+
+	void ApplyEffectToSelf(const TSubclassOf<UGameplayEffect>& GameplayEffectClass, const float Level) const;
 };
