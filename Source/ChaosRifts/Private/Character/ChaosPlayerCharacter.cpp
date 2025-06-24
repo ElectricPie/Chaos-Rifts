@@ -49,5 +49,8 @@ void AChaosPlayerCharacter::InitAbilityActorInfo()
 	}
 
 	InitDefaultAttributes();
+
+	// TODO: Remove this after testing
+	ApplyEffectToSelf(TestEffectClass, 1.f);
 }
 

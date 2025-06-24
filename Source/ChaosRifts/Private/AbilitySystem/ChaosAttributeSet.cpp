@@ -10,11 +10,19 @@ void UChaosAttributeSet::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& O
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 
-	// Vital Attributes
+	/* Vital Attributes */
 	DOREPLIFETIME_CONDITION_NOTIFY(UChaosAttributeSet, Health, COND_None, REPNOTIFY_Always);
+
+	/* Secondary Attributes */
+	DOREPLIFETIME_CONDITION_NOTIFY(UChaosAttributeSet, MaxHealth, COND_None, REPNOTIFY_Always);
 }
 
 void UChaosAttributeSet::OnRep_Health()
 {
 	GAMEPLAYATTRIBUTE_REPNOTIFY(UChaosAttributeSet, Health, Health);
+}
+
+void UChaosAttributeSet::OnRep_MaxHealth()
+{
+	GAMEPLAYATTRIBUTE_REPNOTIFY(UChaosAttributeSet, MaxHealth, MaxHealth);
 }

@@ -7,7 +7,8 @@ struct CHAOSRIFTS_API FChaosGameplayTags
 {
 public:
 	// Gameplay Message Channels
-	FGameplayTag Message_Attribute_Changed;
+	FGameplayTag Message_Player_Attribute_Health_Changed;
+	FGameplayTag Message_Player_Attribute_MaxHealth_Changed;
 
 public:
 	static void InitializeNativeGameplayTags();

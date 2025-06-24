@@ -20,4 +20,8 @@ protected:
 	virtual void OnRep_PlayerState() override;
 	
 	virtual void InitAbilityActorInfo() override;
+
+private:
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UGameplayEffect> TestEffectClass;
 };

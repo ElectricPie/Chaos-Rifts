@@ -19,10 +19,7 @@ struct FAttributeChangedMessage
 	GENERATED_BODY()
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	FText AttributeName;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float AttributeValue;
-	
+	float NewValue;
 };
 
 /**
@@ -34,14 +31,25 @@ class CHAOSRIFTS_API UChaosAttributeSet : public UAttributeSet
 	GENERATED_BODY()
 
 public:
+	/* Vital Attributes */
 	UPROPERTY(BlueprintReadOnly, Category="VitalAttributes", ReplicatedUsing=OnRep_Health)
 	FGameplayAttributeData Health;
 	ATTRIBUTE_ACCESSORS(UChaosAttributeSet, Health)
+
+	/* Secondary Attributes */
+	UPROPERTY(BlueprintReadOnly, Category="VitalAttributes", ReplicatedUsing=OnRep_MaxHealth)
+	FGameplayAttributeData MaxHealth;
+	ATTRIBUTE_ACCESSORS(UChaosAttributeSet, MaxHealth)
 
 public:
 	virtual void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 private:
+	/* Vital Attributes */
 	UFUNCTION()
 	void OnRep_Health();
+
+	/* Secondary Attributes */
+	UFUNCTION()
+	void OnRep_MaxHealth();
 };

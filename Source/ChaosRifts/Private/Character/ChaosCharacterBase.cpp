@@ -19,6 +19,7 @@ void AChaosCharacterBase::InitAbilityActorInfo()
 
 void AChaosCharacterBase::InitDefaultAttributes() const
 {
+	ApplyEffectToSelf(DefaultSecondaryAttributes, 1.f);
 	ApplyEffectToSelf(DefaultVitalAttributes, 1.f);
 }
 

@@ -27,10 +27,21 @@ AChaosPlayerState::AChaosPlayerState()
 				UGameplayMessageSubsystem& MessageSubsystem = UGameplayMessageSubsystem::Get(this);
 
 				FAttributeChangedMessage AttributeChangedMessage;
-				AttributeChangedMessage.AttributeName = FText::FromString("Health");
-				AttributeChangedMessage.AttributeValue = Data.NewValue;
+				AttributeChangedMessage.NewValue = Data.NewValue;
 
-				MessageSubsystem.BroadcastMessage(FChaosGameplayTags::Get().Message_Attribute_Changed, AttributeChangedMessage);
+				MessageSubsystem.BroadcastMessage(FChaosGameplayTags::Get().Message_Player_Attribute_Health_Changed, AttributeChangedMessage);
+			}
+		);
+
+		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ChaosAttributeSet->GetMaxHealthAttribute()).AddLambda(
+			[this](const FOnAttributeChangeData& Data)
+			{
+				UGameplayMessageSubsystem& MessageSubsystem = UGameplayMessageSubsystem::Get(this);
+
+				FAttributeChangedMessage AttributeChangedMessage;
+				AttributeChangedMessage.NewValue = Data.NewValue;
+
+				MessageSubsystem.BroadcastMessage(FChaosGameplayTags::Get().Message_Player_Attribute_MaxHealth_Changed, AttributeChangedMessage);
 			}
 		);
 	}
