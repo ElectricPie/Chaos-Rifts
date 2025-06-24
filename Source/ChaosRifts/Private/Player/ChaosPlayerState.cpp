@@ -17,32 +17,37 @@ AChaosPlayerState::AChaosPlayerState()
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 
 	AttributeSet = CreateDefaultSubobject<UChaosAttributeSet>(TEXT("AttributeSet"));
+}
 
+void AChaosPlayerState::BeginPlay()
+{
+	Super::BeginPlay();
 
 	if (const UChaosAttributeSet* ChaosAttributeSet = Cast<UChaosAttributeSet>(AttributeSet))
 	{
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ChaosAttributeSet->GetHealthAttribute()).AddLambda(
-			[this](const FOnAttributeChangeData& Data)
-			{
-				UGameplayMessageSubsystem& MessageSubsystem = UGameplayMessageSubsystem::Get(this);
-
-				FAttributeChangedMessage AttributeChangedMessage;
-				AttributeChangedMessage.NewValue = Data.NewValue;
-
-				MessageSubsystem.BroadcastMessage(FChaosGameplayTags::Get().Message_Player_Attribute_Health_Changed, AttributeChangedMessage);
-			}
-		);
-
-		AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(ChaosAttributeSet->GetMaxHealthAttribute()).AddLambda(
-			[this](const FOnAttributeChangeData& Data)
-			{
-				UGameplayMessageSubsystem& MessageSubsystem = UGameplayMessageSubsystem::Get(this);
-
-				FAttributeChangedMessage AttributeChangedMessage;
-				AttributeChangedMessage.NewValue = Data.NewValue;
-
-				MessageSubsystem.BroadcastMessage(FChaosGameplayTags::Get().Message_Player_Attribute_MaxHealth_Changed, AttributeChangedMessage);
-			}
-		);
+		SetupAttributeChangeDelegate(FChaosGameplayTags::Get().Message_Player_Attribute_Health_Changed, ChaosAttributeSet->GetHealthAttribute(), ChaosAttributeSet);
+		SetupAttributeChangeDelegate(FChaosGameplayTags::Get().Message_Player_Attribute_MaxHealth_Changed, ChaosAttributeSet->GetMaxHealthAttribute(), ChaosAttributeSet);
 	}
 }
+
+void AChaosPlayerState::SetupAttributeChangeDelegate(const FGameplayTag& Tag, const FGameplayAttribute& Attribute, const UChaosAttributeSet* ChaosAttributeSet) const
+{
+	AbilitySystemComponent->GetGameplayAttributeValueChangeDelegate(Attribute).AddLambda(
+		[this, Tag](const FOnAttributeChangeData& Data)
+		{
+			BroadcastAttributeChangedMessage(Tag, Data.NewValue);
+		}
+	);
+	BroadcastAttributeChangedMessage(Tag, Attribute.GetNumericValue(ChaosAttributeSet));
+}
+
+void AChaosPlayerState::BroadcastAttributeChangedMessage(const FGameplayTag& Tag, const float NewValue) const
+{
+	FAttributeChangedMessage AttributeChangedMessage;
+	AttributeChangedMessage.NewValue = NewValue;
+
+	UGameplayMessageSubsystem& MessageSubsystem = UGameplayMessageSubsystem::Get(this);
+	MessageSubsystem.BroadcastMessage(Tag, AttributeChangedMessage);
+}
+
+

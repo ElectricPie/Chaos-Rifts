@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerState.h"
 #include "ChaosPlayerState.generated.h"
 
+class UChaosAttributeSet;
+struct FGameplayAttribute;
+struct FGameplayTag;
 class UGameplayMessageSubsystem;
 class UAttributeSet;
 
@@ -29,4 +32,11 @@ protected:
 	TObjectPtr<UAbilitySystemComponent> AbilitySystemComponent;
 	UPROPERTY(VisibleAnywhere)
 	TObjectPtr<UAttributeSet> AttributeSet;
+
+protected:
+	virtual void BeginPlay() override;
+
+private:
+	void SetupAttributeChangeDelegate(const FGameplayTag& Tag, const FGameplayAttribute& Attribute, const UChaosAttributeSet* ChaosAttributeSet) const;
+	void BroadcastAttributeChangedMessage(const FGameplayTag& Tag, const float NewValue) const;
 };
