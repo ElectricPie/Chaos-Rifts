@@ -13,4 +13,8 @@ void FChaosGameplayTags::InitializeNativeGameplayTags()
 	/* Secondary Attributes */
 	GameplayTags.Message_Player_Attribute_MaxHealth_Changed = UGameplayTagsManager::Get().
 	AddNativeGameplayTag(FName(TEXT("Message.Player.Attribute.MaxHealth.Changed")), TEXT("Attribute Max Health Changed Message for local player"));
+
+	/* Input */
+	GameplayTags.Input_LeftMouse = UGameplayTagsManager::Get().
+	AddNativeGameplayTag(FName(TEXT("Input.LeftMouse")), TEXT("Left Mouse Button Input"));
 }

@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "FChaosGameplayTags.h"
+#include "AbilitySystem/ChaosAbilitySystemComponent.h"
 #include "AbilitySystem/ChaosAttributeSet.h"
 #include "GameFramework/GameplayMessageSubsystem.h"
 
@@ -12,7 +13,7 @@ AChaosPlayerState::AChaosPlayerState()
 {
 	SetNetUpdateFrequency(100.0f);
 
-	AbilitySystemComponent = CreateDefaultSubobject<UAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
+	AbilitySystemComponent = CreateDefaultSubobject<UChaosAbilitySystemComponent>(TEXT("AbilitySystemComponent"));
 	AbilitySystemComponent->SetIsReplicated(true);
 	AbilitySystemComponent->SetReplicationMode(EGameplayEffectReplicationMode::Mixed);
 

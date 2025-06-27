@@ -7,6 +7,9 @@
 #include "GameFramework/PlayerController.h"
 #include "ChaosPlayerController.generated.h"
 
+class UChaosAbilitySystemComponent;
+struct FGameplayTag;
+class UChaosInputConfig;
 class UInputAction;
 class UInputMappingContext;
 
@@ -23,11 +26,22 @@ protected:
 	virtual void SetupInputComponent() override;
 
 private:
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputMappingContext> DefaultMappingContext;
-	UPROPERTY(EditDefaultsOnly)
+	UPROPERTY(EditDefaultsOnly, Category="Input")
 	TObjectPtr<UInputAction> MoveAction;
+	UPROPERTY(EditDefaultsOnly, Category="Input")
+	TObjectPtr<UChaosInputConfig> InputConfig;
+
+	UPROPERTY()
+	TObjectPtr<UChaosAbilitySystemComponent> ChaosAbilitySystemComponent;
 
 private:
 	void Move(const FInputActionValue& Value);
+
+	void AbilityInputTagPressed(const FGameplayTag InputTag);
+	void AbilityInputTagReleased(const FGameplayTag InputTag);
+	void AbilityInputTagHeld(const FGameplayTag InputTag);
+
+	UChaosAbilitySystemComponent* GetChaosAbilitySystemComponent();
 };

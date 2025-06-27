@@ -2,8 +2,12 @@
 
 
 #include "Player/ChaosPlayerController.h"
+
+#include "AbilitySystemBlueprintLibrary.h"
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "AbilitySystem/ChaosAbilitySystemComponent.h"
+#include "Input/ChaosInputComponent.h"
 
 void AChaosPlayerController::BeginPlay()
 {
@@ -19,10 +23,12 @@ void AChaosPlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
 
-	if (UEnhancedInputComponent* EnhancedInputComponent = Cast<UEnhancedInputComponent>(InputComponent))
-	{
-		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AChaosPlayerController::Move);
-	}
+	UChaosInputComponent* ChaosInputComponent = Cast<UChaosInputComponent>(InputComponent);
+	
+	ChaosInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AChaosPlayerController::Move);
+
+	ChaosInputComponent->BindAbilityAction(InputConfig, this, &ThisClass::AbilityInputTagPressed, 
+		&ThisClass::AbilityInputTagReleased, &ThisClass::AbilityInputTagHeld);
 }
 
 void AChaosPlayerController::Move(const FInputActionValue& Value)
@@ -38,4 +44,35 @@ void AChaosPlayerController::Move(const FInputActionValue& Value)
 		ControlledPawn->AddMovementInput(ForwardDirection, MoveDirection.Y);
 		ControlledPawn->AddMovementInput(RightDirection, MoveDirection.X);
 	}
+}
+
+void AChaosPlayerController::AbilityInputTagPressed(const FGameplayTag InputTag)
+{
+	
+}
+
+void AChaosPlayerController::AbilityInputTagReleased(const FGameplayTag InputTag)
+{
+	if (GetChaosAbilitySystemComponent())
+	{
+		GetChaosAbilitySystemComponent()->AbilityInputTagReleased(InputTag);
+	}
+}
+
+void AChaosPlayerController::AbilityInputTagHeld(const FGameplayTag InputTag)
+{
+	if (GetChaosAbilitySystemComponent())
+	{
+		GetChaosAbilitySystemComponent()->AbilityInputTagHeld(InputTag);
+	}
+}
+
+UChaosAbilitySystemComponent* AChaosPlayerController::GetChaosAbilitySystemComponent()
+{
+	if (ChaosAbilitySystemComponent == nullptr)
+	{
+		ChaosAbilitySystemComponent = Cast<UChaosAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(GetPawn()));
+	}
+
+	return ChaosAbilitySystemComponent;
 }

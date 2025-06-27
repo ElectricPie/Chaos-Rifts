@@ -21,6 +21,7 @@ void AChaosPlayerCharacter::PossessedBy(AController* NewController)
 
 	// Server Side Initialization
 	InitAbilityActorInfo();
+	AddStartingCharacterAbilities();
 }
 
 void AChaosPlayerCharacter::OnRep_PlayerState()

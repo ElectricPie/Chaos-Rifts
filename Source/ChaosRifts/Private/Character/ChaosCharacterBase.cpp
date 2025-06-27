@@ -4,6 +4,7 @@
 #include "Character/ChaosCharacterBase.h"
 
 #include "AbilitySystemComponent.h"
+#include "AbilitySystem/ChaosAbilitySystemComponent.h"
 
 // Sets default values
 AChaosCharacterBase::AChaosCharacterBase()
@@ -32,4 +33,13 @@ void AChaosCharacterBase::ApplyEffectToSelf(const TSubclassOf<UGameplayEffect>& 
 	const FGameplayEffectSpecHandle SpecHandle = GetAbilitySystemComponent()->MakeOutgoingSpec(GameplayEffectClass, Level, EffectContextHandle);
 
 	GetAbilitySystemComponent()->ApplyGameplayEffectSpecToSelf(*SpecHandle.Data.Get());
+}
+
+void AChaosCharacterBase::AddStartingCharacterAbilities()
+{
+	if (!HasAuthority())
+		return;
+
+	UChaosAbilitySystemComponent* AbilitySystem = Cast<UChaosAbilitySystemComponent>(GetAbilitySystemComponent());
+	AbilitySystem->AddCharacterAbilities(StartingAbilities);
 }
