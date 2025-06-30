@@ -5,6 +5,7 @@
 
 #include "AbilitySystemComponent.h"
 #include "Actor/ChaosProjectile.h"
+#include "Character/ChaosPlayerCharacter.h"
 
 void UChaosProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Handle,
                                             const FGameplayAbilityActorInfo* ActorInfo,
@@ -14,13 +15,18 @@ void UChaosProjectileSpell::ActivateAbility(const FGameplayAbilitySpecHandle Han
 	Super::ActivateAbility(Handle, ActorInfo, ActivationInfo, TriggerEventData);
 }
 
-void UChaosProjectileSpell::SpawnProjectile(const FVector& Location) const
+void UChaosProjectileSpell::SpawnProjectile(const FVector& TargetLocation) const
 {
 	if (!GetAvatarActorFromActorInfo()->HasAuthority())
 		return;
 
+	// TODO: Setup interface for getting socket
+	const AChaosPlayerCharacter* PlayerCharacter = Cast<AChaosPlayerCharacter>(GetAvatarActorFromActorInfo());
+	if (PlayerCharacter == nullptr)
+		return;
+	
 	FTransform SpawnTransform;
-	SpawnTransform.SetLocation(Location);
+	SpawnTransform.SetLocation(PlayerCharacter->GetWeaponTipSocketLocation());
 
 	AChaosProjectile* Projectile = GetWorld()->SpawnActorDeferred<AChaosProjectile>(ProjectileClass,
 		SpawnTransform,

@@ -5,13 +5,15 @@
 
 #include "AbilitySystemComponent.h"
 #include "AbilitySystem/ChaosAbilitySystemComponent.h"
+#include "ChaosRifts/ChaosRifts.h"
 
 // Sets default values
 AChaosCharacterBase::AChaosCharacterBase()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
+	
+	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
 }
 
 void AChaosCharacterBase::InitAbilityActorInfo()

@@ -4,6 +4,7 @@
 #include "Character/ChaosPlayerCharacter.h"
 
 #include "AbilitySystemComponent.h"
+#include "ChaosRifts/ChaosRifts.h"
 #include "Player/ChaosPlayerState.h"
 #include "Ui/Hud/OverlayHud.h"
 
@@ -13,6 +14,16 @@ AChaosPlayerCharacter::AChaosPlayerCharacter()
 {
 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
+
+	WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>("Weapon Mesh");
+	WeaponMesh->SetupAttachment(GetMesh(), "WeaponSocket");
+	WeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+FVector AChaosPlayerCharacter::GetWeaponTipSocketLocation() const
+{
+	check(WeaponMesh);
+	return WeaponMesh->GetSocketLocation(WeaponTipSocketName);
 }
 
 void AChaosPlayerCharacter::PossessedBy(AController* NewController)
