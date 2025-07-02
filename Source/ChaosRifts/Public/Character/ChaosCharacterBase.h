@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "AbilitySystemInterface.h"
 #include "GameFramework/Character.h"
+#include "Interaction/CombatInterface.h"
 #include "ChaosCharacterBase.generated.h"
 
 class UGameplayAbility;
@@ -13,7 +14,7 @@ class UAbilitySystemComponent;
 class UAttributeSet;
 
 UCLASS(Abstract)
-class AChaosCharacterBase : public ACharacter, public IAbilitySystemInterface
+class AChaosCharacterBase : public ACharacter, public IAbilitySystemInterface, public ICombatInterface
 {
 	GENERATED_BODY()
 
@@ -23,6 +24,10 @@ public:
 
 	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override { return AbilitySystemComponent; }
 	UAttributeSet* GetAttributeSet() const { return AttributeSet; }
+
+	/* Begin CombatInterface */
+	virtual FVector GetWeaponSocketLocation() const override;
+	/* End CombatInterface */
 
 protected:
 	UPROPERTY(BlueprintReadOnly)
@@ -34,6 +39,18 @@ protected:
 	TSubclassOf<UGameplayEffect> DefaultVitalAttributes;
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category="Attributes")
 	TSubclassOf<UGameplayEffect> DefaultSecondaryAttributes;
+	
+	UPROPERTY(VisibleAnywhere, Category="Combat")
+	TObjectPtr<UStaticMeshComponent> EquippedWeaponMesh;
+	UPROPERTY(VisibleAnywhere, Category="Combat")
+	TObjectPtr<UStaticMeshComponent> BackWeaponMesh;
+	UPROPERTY(EditAnywhere, Category="Combat")
+	FName WeaponSocketName = "WeaponSocket";
+	UPROPERTY(EditAnywhere, Category="Combat")
+	FName BackWeaponSocketName = "BackWeaponSocket";
+	UPROPERTY(EditAnywhere, Category="Combat")
+	FName WeaponTipSocketName = "TipSocket";
+	
 
 protected:
 	virtual void InitAbilityActorInfo();

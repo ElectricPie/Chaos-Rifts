@@ -13,6 +13,9 @@ public:
 	/* Input Tags */
 	FGameplayTag Input_LeftMouse;
 
+	/* Event */
+	FGameplayTag Event_Montage_Projectile;
+
 public:
 	static void InitializeNativeGameplayTags();
 	static const FChaosGameplayTags& Get() { return GameplayTags; }

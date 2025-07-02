@@ -17,4 +17,8 @@ void FChaosGameplayTags::InitializeNativeGameplayTags()
 	/* Input */
 	GameplayTags.Input_LeftMouse = UGameplayTagsManager::Get().
 	AddNativeGameplayTag(FName(TEXT("Input.LeftMouse")), TEXT("Left Mouse Button Input"));
+
+	/* Events */
+	GameplayTags.Event_Montage_Projectile = UGameplayTagsManager::Get().
+	AddNativeGameplayTag(FName(TEXT("Event.Montage.Projectile")), TEXT("Montage Event for Projectile Spawning"));
 }

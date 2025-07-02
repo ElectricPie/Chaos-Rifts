@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "ChaosCharacterBase.h"
+#include "Interaction/CombatInterface.h"
 #include "ChaosPlayerCharacter.generated.h"
 
 UCLASS()
@@ -15,14 +16,6 @@ public:
 	// Sets default values for this character's properties
 	AChaosPlayerCharacter();
 
-	FVector GetWeaponTipSocketLocation() const;
-
-protected:
-	UPROPERTY(VisibleAnywhere, Category="Combat")
-	TObjectPtr<UStaticMeshComponent> WeaponMesh;
-	UPROPERTY(EditAnywhere, Category="Combat")
-	FName WeaponTipSocketName = "TipSocket";
-	
 protected:
 	virtual void PossessedBy(AController* NewController) override;
 	virtual void OnRep_PlayerState() override;

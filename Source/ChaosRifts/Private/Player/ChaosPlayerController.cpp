@@ -17,6 +17,8 @@ void AChaosPlayerController::BeginPlay()
 	{
 		Subsystem->AddMappingContext(DefaultMappingContext, 0);
 	}
+
+	bShowMouseCursor = true;
 }
 
 void AChaosPlayerController::SetupInputComponent()

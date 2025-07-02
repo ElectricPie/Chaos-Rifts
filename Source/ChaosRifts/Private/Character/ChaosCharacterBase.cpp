@@ -14,6 +14,25 @@ AChaosCharacterBase::AChaosCharacterBase()
 	PrimaryActorTick.bCanEverTick = true;
 	
 	GetMesh()->SetCollisionResponseToChannel(ECC_Projectile, ECR_Overlap);
+	
+	BackWeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>("Back Weapon Mesh");
+	BackWeaponMesh->SetupAttachment(GetMesh(), FName("BackWeaponSocket"));
+	BackWeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+	
+	EquippedWeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>("Weapon Mesh");
+	EquippedWeaponMesh->SetupAttachment(GetMesh(), WeaponSocketName);
+	EquippedWeaponMesh->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+}
+
+FVector AChaosCharacterBase::GetWeaponSocketLocation() const
+{
+	
+	if (EquippedWeaponMesh->GetStaticMesh())
+	{
+		return EquippedWeaponMesh->GetSocketLocation(WeaponTipSocketName);
+	}
+
+	return GetMesh()->GetSocketLocation(WeaponSocketName);
 }
 
 void AChaosCharacterBase::InitAbilityActorInfo()
